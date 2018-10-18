@@ -121,6 +121,14 @@ abstract class SubscriptionCreate implements RequestInterface
     {
         $address = $this->customer->getAddress();
 
+        if (is_null($address)) {
+            return [];
+        }
+
+        if (is_array($address)) {
+            $address = new \PagarMe\Sdk\Customer\Address($address);
+        }
+
         $addressData = [
             'street'        => $address->getStreet(),
             'street_number' => $address->getStreetNumber(),
@@ -153,6 +161,14 @@ abstract class SubscriptionCreate implements RequestInterface
     protected function getPhoneData()
     {
         $phone = $this->customer->getPhone();
+
+        if (is_null($phone)) {
+            return [];
+        }
+
+        if (is_array($phone)) {
+            $phone = new \PagarMe\Sdk\Customer\Phone($phone);
+        }
 
         $phoneData = [
             'ddd'    => $phone->getDdd(),
